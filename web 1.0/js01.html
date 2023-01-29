@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>幸运大转盘</title>
+    <style>
+        /* 重置默认样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            border: none;
+            outline: none;
+            user-select: none;
+        }
+        html,body{
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+        }
+        .wrapper {
+            position: relative;
+            left: 50%;
+            top: 50%;
+            height: 450px;
+            width: 450px;
+            padding: 20px;
+            margin: -245px -245px;
+            background-color: #c0381f;
+            box-shadow: #000000 0 0 10px;
+            border-radius: 50%;
+        }
+        /*闪烁的亮点*/
+        .light {
+            position: absolute;
+            height: 10px;
+            width: 10px;
+            border-radius: 50%;
+            top: 41px;
+            left: 115px;
+            transform-origin: 130px 204px;
+        }
+        .light-twinkling {
+            animation: 1s twinkling 3, 100ms 3s twinkling 3;
+        }
+        .light:nth-child(2n) {
+            background-color: #fafce7;
+        }
+        .light:nth-child(2n+1) {
+            background-color: #ffe58b;
+        }
+        .light:nth-child(2) {
+            transform: rotate(18deg);
+        }
+        .light:nth-child(3) {
+            transform: rotate(36deg);
+        }
+        .light:nth-child(4) {
+            transform: rotate(54deg);
+        }
+        .light:nth-child(5) {
+            transform: rotate(72deg);
+        }
+        .light:nth-child(6) {
+            transform: rotate(90deg);
+        }
+        .light:nth-child(7) {
+            transform: rotate(108deg);
+        }
+        .light:nth-child(8) {
+            transform: rotate(126deg);
+        }
+        .light:nth-child(9) {
+            transform: rotate(144deg);
+        }
+        .light:nth-child(10) {
+            transform: rotate(162deg);
+        }
+        .light:nth-child(11) {
+            transform: rotate(180deg);
+        }
+        .light:nth-child(12) {
+            transform: rotate(198deg);
+        }
+        .light:nth-child(13) {
+            transform: rotate(216deg);
+        }
+        .light:nth-child(14) {
+            transform: rotate(234deg);
+        }
+        .light:nth-child(15) {
+            transform: rotate(252deg);
+        }
+        .light:nth-child(16) {
+            transform: rotate(270deg);
+        }
+        .light:nth-child(17) {
+            transform: rotate(288deg);
+        }
+        .light:nth-child(18) {
+            transform: rotate(306deg);
+        }
+        .light:nth-child(19) {
+            transform: rotate(324deg);
+        }
+        .light:nth-child(20) {
+            transform: rotate(342deg);
+        }
+
+        .panel {
+            position: relative;
+            height: 450px;
+            width: 450px;
+            background-color: #b7b7b7;
+            border-radius: 225px;
+        }
+        #sectorBox{
+            width: 450px;
+            height: 450px;
+            border-radius: 50%;
+            transition: transform 3s cubic-bezier(.2,.93,.43,1);
+        }
+        /*扇面*/
+        .sector {
+            position: absolute;
+            left: 225px;
+            top: 0;
+            width: 225px;
+            height: 450px;
+            border-radius: 0 225px 225px 0;
+            font-size: 14px;
+            overflow: hidden;
+            transform-origin: left center;
+        }
+        .sector:nth-child(1) {
+            transform: rotate(-12.855deg);
+        }
+        .sector:nth-child(2) {
+            transform: rotate(12.855deg);
+        }
+        .sector:nth-child(3) {
+            transform: rotate(38.565deg);
+        }
+        .sector:nth-child(4) {
+            transform: rotate(64.275deg);
+        }
+        .sector:nth-child(5) {
+            transform: rotate(89.985deg);
+        }
+        .sector:nth-child(6) {
+            transform: rotate(115.695deg);
+        }
+        .sector:nth-child(7) {
+            transform: rotate(141.405deg);
+        }
+        .sector:nth-child(8) {
+            transform: rotate(167.115deg);
+        }
+        .sector:nth-child(9) {
+            transform: rotate(192.825deg);
+        }
+        .sector:nth-child(10) {
+            transform: rotate(218.535deg);
+        }
+        .sector:nth-child(11) {
+            transform: rotate(244.245deg);
+        }
+        .sector:nth-child(12) {
+            transform: rotate(269.955deg);
+        }
+        .sector:nth-child(13) {
+            transform: rotate(295.665deg);
+        }
+        .sector:nth-child(14) {
+            transform: rotate(321.375deg);
+        }
+        .sector:nth-child(2n+1) .sector-inner {
+            background: #E50415;
+        }
+        .sector:nth-child(2n) .sector-inner {
+            background: #E8B202;
+        }
+        .sector-inner {
+            text-align: center;
+            display: block;
+            width: 168px;
+            padding: 66px 5px 0 57px;
+            height: 384px;
+            transform: translateX(-229px) rotate(25.71deg);/*rotate 扇面夹角角度*/
+            transform-origin: right center;
+            border-radius: 225px 0 0 225px;
+        }
+        .sector-inner span {
+            position: relative;
+            top: -34px;
+            text-align: center;
+            display: block;
+            float: right;
+            width: 72px;
+            line-height: 22px;
+            font-size: 18px;
+            font-weight: bold;
+            transform-origin: center;
+            transform: rotate(-14deg);
+            color: #fff;
+        }
+        .pointer {
+            position: absolute;
+            left: 188px;
+            top: 188px;
+            z-index: 10;
+            height: 60px;
+            width: 60px;
+            padding: 6px;
+            color: #fff899;
+            line-height: 28px;
+            font-size: 22px;
+            text-align: center;
+            background-color: #ff5350;
+            border-radius: 50%;
+            border: 1px solid #ff5350;
+            transition: transform 3s cubic-bezier(.2,.93,.43,1);
+        }
+        .pointer::after {
+            content: '';
+            position: absolute;
+            left: 28px;
+            top: -40px;
+            border-width: 20px 8px;
+            border-style: solid;
+            border-color: transparent;
+            border-bottom-color: #ff5350;
+            transform-origin: center;
+        }
+
+        /*中奖弹出框*/
+        .result {
+            display: none;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            z-index: 20;
+            margin: -80px -150px;
+            width: 300px;
+            height: 160px;
+            text-align: center;
+            line-height: 160px;
+            color: #E8B202;
+            font-size: 20px;
+            font-weight: bold;
+            background: #E50415;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #000;
+        }
+
+
+        @keyframes twinkling {
+            50% { background: transparent; }
+        }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+    <!--灯-->
+    <div class="light"></div>
+    <div class="light"></div>
+    <div class="light"></div>
+    <div class="light"></div>
+    <div class="light"></div>
+    <div class="light"></div>
+    <div class="light"></div>
+    <div class="light"></div>
+    <div class="light"></div>
+    <div class="light"></div>
+    <div class="light"></div>
+    <div class="light"></div>
+    <div class="light"></div>
+    <div class="light"></div>
+    <div class="light"></div>
+    <div class="light"></div>
+    <div class="light"></div>
+    <div class="light"></div>
+    <div class="light"></div>
+    <div class="light"></div>
+    <div class="panel">
+        <div id="sectorBox">
+            <!--扇面-->
+            <div class="sector">
+                <div class="sector-inner">
+                    <span>汽油零售处</span>
+                </div>
+            </div>
+            <div class="sector">
+                <div class="sector-inner">
+                    <span>财务资产处</span>
+                </div>
+            </div>
+            <div class="sector">
+                <div class="sector-inner">
+                    <span>信息处</span>
+                </div>
+            </div>
+            <div class="sector">
+                <div class="sector-inner">
+                    <span>人事处</span>
+                </div>
+            </div>
+            <div class="sector">
+                <div class="sector-inner">
+                    <span>质量安全环保处</span>
+                </div>
+            </div>
+            <div class="sector">
+                <div class="sector-inner">
+                    <span>工程建设处</span>
+                </div>
+            </div>
+            <div class="sector">
+                <div class="sector-inner">
+                    <span>营销调运处</span>
+                </div>
+            </div>
+            <div class="sector">
+                <div class="sector-inner">
+                    <span>企管法规处</span>
+                </div>
+            </div>
+            <div class="sector">
+                <div class="sector-inner">
+                    <span>审计处</span>
+                </div>
+            </div>
+            <div class="sector">
+                <div class="sector-inner">
+                    <span>非油业务处</span>
+                </div>
+            </div>
+            <div class="sector">
+                <div class="sector-inner">
+                    <span>新闻中心</span>
+                </div>
+            </div>
+            <div class="sector">
+                <div class="sector-inner">
+                    <span>维稳办</span>
+                </div>
+            </div>
+            <div class="sector">
+                <div class="sector-inner">
+                    <span>后勤管理中心</span>
+                </div>
+            </div>
+            <div class="sector">
+                <div class="sector-inner">
+                    <span>再来一次</span>
+                </div>
+            </div>
+        </div>
+        <div class="pointer">开始抽奖</div>
+    </div>
+</div>
+<div class="result"></div>
+<script>
+    let getEle = document.getElementsByClassName.bind(document);
+    let pointer = getEle('pointer')[0];
+    let result = getEle('result')[0];
+    let sectorBox = document.getElementById("sectorBox");
+    let lights = Array.prototype.slice.call(getEle('light'));
+
+    let onRotation = false; // 记录当前是否正在旋转，如果正在旋转，就不能继续点击了
+    /*指针顺时针转*/
+    //    let reward = ['汽油零售处', '财务资产处', '信息处', '人事处', '质量安全环保处','工程建设处', '营销调运处', '企管法规处',
+    //        '审计处', '非油业务处', '新闻中心', '维稳办', '后勤管理中心', '再来一次'];
+    /*转盘顺时针转*/
+    let reward = ['再来一次', '后勤管理中心', '维稳办', '新闻中心', '非油业务处','审计处', '企管法规处', '营销调运处',
+        '工程建设处', '质量安全环保处', '人事处', '信息处', '财务资产处', '汽油零售处'];
+
+    // 根据随机角度获取奖励
+    let getReward = (function() {
+        currentDeg = 0;
+        return function() {
+            // 转三圈到四圈
+            let rotateDeg = Math.random() * 360 + 1080;
+            currentDeg += rotateDeg;
+            let $deg=25.71;/*扇面夹角角度*/
+//            let rewardText = reward[Math.floor((currentDeg + 12.855) % 360 / $deg)];/*指针顺时针转*/
+            let rewardText = reward[Math.floor((currentDeg - 12.855) % 360 / $deg)];/*转盘顺时针转*/
+            return {
+                deg: currentDeg,
+                text: rewardText === '再来一次' ? '恭喜您，再来一次。' : '恭喜: ' + rewardText +'获得奖励 '
+            }
+        }
+    })();
+
+    pointer.addEventListener('click', () => {
+        if (onRotation) return;
+    console.log('开始抽奖');
+    onRotation = true;
+    lights.forEach(light => { light.className += ' light-twinkling'; });
+    let nextStatus = getReward();
+    console.log(nextStatus);
+    result.innerText = nextStatus.text;
+    //result.style.display = 'none';
+    sectorBox.style.transform = `rotateZ(${nextStatus.deg}deg)`;/*转盘转到*/
+    });
+    sectorBox.addEventListener('transitionend', () => {
+        console.log('抽奖结束');
+    setTimeout(() => { // 等闪烁三下结束
+        onRotation = false;
+    lights.forEach(light => { light.className = 'light'; });
+    result.style.display = 'block';
+    }, 300);
+    });
+    result.addEventListener('click', () => {
+        result.style.display = 'none';
+    });
+</script>
+</body>
+</html>
