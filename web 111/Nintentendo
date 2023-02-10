@@ -86,7 +86,7 @@
         </dl>
       </li>
     </ul>
-</ul>>
+  </ul>
 
   <!-- 导航下面板部分 -->
   <div class="layui-row">
@@ -114,7 +114,7 @@
                     <!-- 1 -->
                     <div class="layui-card-header"><a href="1983Gameandwatch.html"></a>1980 任天堂 Game＆Watch</div>
                     <div class="layui-card-body">
-                      <a href="1983Gameandwatch.html"><img src="资料/未命名文件夹/IMG_4650.png"  width="665" height="470.3"></a>
+                      <a href="1983 Famicom.html"><img src="资料/未命名文件夹/IMG_4650.png"  width="665" height="470.3"></a>
                     </div>
                   </div>
                 </div>
@@ -218,11 +218,9 @@
       </div>   
     </div>
   </div>
-  </div>
 
  <br>
   
-
 <!-- 下方公司图片区 -->
 <div class="layui-row">
   <div class="layui-col-md12 layui-col-md-offset1">
